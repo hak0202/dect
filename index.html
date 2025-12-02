@@ -1,0 +1,441 @@
+import React, { useState } from 'react';
+import { ShoppingCart, User, CreditCard, Package, Home, LogOut, Trash2, Plus, Minus } from 'lucide-react';
+
+const EcommerceWebsite = () => {
+  const [currentPage, setCurrentPage] = useState('login');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cart, setCart] = useState([]);
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+
+  const products = [
+    { id: 1, name: 'Wireless Headphones', price: 79.99, image: '🎧', description: 'Premium sound quality with noise cancellation' },
+    { id: 2, name: 'Smart Watch', price: 199.99, image: '⌚', description: 'Track your fitness and stay connected' },
+    { id: 3, name: 'Laptop Stand', price: 49.99, image: '💻', description: 'Ergonomic aluminum stand for your workspace' },
+    { id: 4, name: 'USB-C Hub', price: 39.99, image: '🔌', description: 'Multi-port connectivity solution' },
+    { id: 5, name: 'Mechanical Keyboard', price: 129.99, image: '⌨️', description: 'RGB backlit gaming keyboard' },
+    { id: 6, name: 'Wireless Mouse', price: 59.99, image: '🖱️', description: 'Precision tracking wireless mouse' },
+  ];
+
+  const handleLogin = () => {
+    if (loginForm.email && loginForm.password) {
+      setIsLoggedIn(true);
+      setCurrentPage('index');
+    }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setCart([]);
+    setCurrentPage('login');
+  };
+
+  const addToCart = (product) => {
+    const existing = cart.find(item => item.id === product.id);
+    if (existing) {
+      setCart(cart.map(item => 
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      ));
+    } else {
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
+  };
+
+  const updateQuantity = (id, delta) => {
+    setCart(cart.map(item => 
+      item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
+    ));
+  };
+
+  const removeFromCart = (id) => {
+    setCart(cart.filter(item => item.id !== id));
+  };
+
+  const getTotal = () => {
+    return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+  };
+
+  const Navigation = () => (
+    <nav className="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">TechStore</h1>
+          {isLoggedIn && (
+            <div className="flex gap-4">
+              <button onClick={() => setCurrentPage('index')} className="flex items-center gap-2 hover:bg-white/20 px-3 py-2 rounded">
+                <Home size={20} /> Home
+              </button>
+              <button onClick={() => setCurrentPage('products')} className="flex items-center gap-2 hover:bg-white/20 px-3 py-2 rounded">
+                <Package size={20} /> Products
+              </button>
+              <button onClick={() => setCurrentPage('cart')} className="flex items-center gap-2 hover:bg-white/20 px-3 py-2 rounded relative">
+                <ShoppingCart size={20} /> Cart
+                {cart.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {cart.length}
+                  </span>
+                )}
+              </button>
+              <button onClick={handleLogout} className="flex items-center gap-2 hover:bg-white/20 px-3 py-2 rounded">
+                <LogOut size={20} /> Logout
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
+
+  const LoginPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
+        <div className="text-center mb-8">
+          <User className="mx-auto text-purple-600 mb-4" size={64} />
+          <h2 className="text-3xl font-bold text-gray-800">Welcome Back</h2>
+          <p className="text-gray-600 mt-2">Login to continue shopping</p>
+        </div>
+        <div className="space-y-6">
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Email</label>
+            <input
+              type="email"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+              placeholder="your@email.com"
+              value={loginForm.email}
+              onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Password</label>
+            <input
+              type="password"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+              placeholder="••••••••"
+              value={loginForm.password}
+              onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+            />
+          </div>
+          <button
+            onClick={handleLogin}
+            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const IndexPage = () => (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="container mx-auto px-4 py-12">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-gray-800 mb-4">Welcome to TechStore</h1>
+          <p className="text-xl text-gray-600">Your one-stop shop for the latest tech gadgets</p>
+        </div>
+        
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div className="text-5xl mb-4">🚚</div>
+            <h3 className="text-xl font-bold mb-2">Free Shipping</h3>
+            <p className="text-gray-600">On orders over $50</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div className="text-5xl mb-4">🔒</div>
+            <h3 className="text-xl font-bold mb-2">Secure Payment</h3>
+            <p className="text-gray-600">100% secure transactions</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div className="text-5xl mb-4">⭐</div>
+            <h3 className="text-xl font-bold mb-2">Top Quality</h3>
+            <p className="text-gray-600">Premium products only</p>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">Featured Products</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {products.slice(0, 3).map(product => (
+              <div key={product.id} className="bg-white rounded-lg shadow-lg p-6">
+                <div className="text-6xl mb-4">{product.image}</div>
+                <h3 className="text-xl font-bold mb-2">{product.name}</h3>
+                <p className="text-gray-600 mb-4">{product.description}</p>
+                <p className="text-2xl font-bold text-purple-600 mb-4">${product.price}</p>
+                <button
+                  onClick={() => addToCart(product)}
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-2 rounded-lg hover:shadow-lg transition"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => setCurrentPage('products')}
+            className="mt-8 bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition"
+          >
+            View All Products
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const ProductsPage = () => (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Our Products</h1>
+        <div className="grid md:grid-cols-3 gap-6">
+          {products.map(product => (
+            <div key={product.id} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition">
+              <div className="text-6xl mb-4 text-center">{product.image}</div>
+              <h3 className="text-xl font-bold mb-2">{product.name}</h3>
+              <p className="text-gray-600 mb-4">{product.description}</p>
+              <div className="flex justify-between items-center">
+                <p className="text-2xl font-bold text-purple-600">${product.price}</p>
+                <button
+                  onClick={() => addToCart(product)}
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition flex items-center gap-2"
+                >
+                  <ShoppingCart size={18} /> Add
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const CartPage = () => (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-4xl font-bold text-gray-800 mb-8">Shopping Cart</h1>
+        {cart.length === 0 ? (
+          <div className="bg-white rounded-lg shadow-lg p-12 text-center">
+            <ShoppingCart size={64} className="mx-auto text-gray-400 mb-4" />
+            <h2 className="text-2xl font-bold text-gray-600 mb-4">Your cart is empty</h2>
+            <button
+              onClick={() => setCurrentPage('products')}
+              className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition"
+            >
+              Continue Shopping
+            </button>
+          </div>
+        ) : (
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-4">
+              {cart.map(item => (
+                <div key={item.id} className="bg-white rounded-lg shadow-lg p-6 flex items-center gap-6">
+                  <div className="text-4xl">{item.image}</div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold">{item.name}</h3>
+                    <p className="text-gray-600">${item.price}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => updateQuantity(item.id, -1)}
+                      className="bg-gray-200 p-2 rounded hover:bg-gray-300"
+                    >
+                      <Minus size={16} />
+                    </button>
+                    <span className="font-bold text-lg w-8 text-center">{item.quantity}</span>
+                    <button
+                      onClick={() => updateQuantity(item.id, 1)}
+                      className="bg-gray-200 p-2 rounded hover:bg-gray-300"
+                    >
+                      <Plus size={16} />
+                    </button>
+                  </div>
+                  <p className="font-bold text-xl w-24 text-right">${(item.price * item.quantity).toFixed(2)}</p>
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
+                <h2 className="text-2xl font-bold mb-4">Order Summary</h2>
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Subtotal</span>
+                    <span className="font-semibold">${getTotal()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Shipping</span>
+                    <span className="font-semibold text-green-600">Free</span>
+                  </div>
+                  <div className="border-t pt-3 flex justify-between text-xl">
+                    <span className="font-bold">Total</span>
+                    <span className="font-bold text-purple-600">${getTotal()}</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setCurrentPage('payment')}
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition flex items-center justify-center gap-2"
+                >
+                  <CreditCard size={20} /> Proceed to Payment
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const PaymentPage = () => {
+    const [paymentForm, setPaymentForm] = useState({
+      cardNumber: '',
+      cardName: '',
+      expiry: '',
+      cvv: '',
+      address: '',
+      city: '',
+      zip: ''
+    });
+
+    const handlePayment = () => {
+      alert('Payment Successful! Order confirmed. Thank you for shopping with us!');
+      setCart([]);
+      setCurrentPage('index');
+    };
+
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="container mx-auto px-4 py-12">
+          <h1 className="text-4xl font-bold text-gray-800 mb-8">Payment</h1>
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-lg shadow-lg p-8">
+                <h2 className="text-2xl font-bold mb-6">Payment Information</h2>
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-2">Card Number</label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+                      placeholder="1234 5678 9012 3456"
+                      value={paymentForm.cardNumber}
+                      onChange={(e) => setPaymentForm({ ...paymentForm, cardNumber: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-2">Cardholder Name</label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+                      placeholder="John Doe"
+                      value={paymentForm.cardName}
+                      onChange={(e) => setPaymentForm({ ...paymentForm, cardName: e.target.value })}
+                    />
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-2">Expiry Date</label>
+                      <input
+                        type="text"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+                        placeholder="MM/YY"
+                        value={paymentForm.expiry}
+                        onChange={(e) => setPaymentForm({ ...paymentForm, expiry: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-2">CVV</label>
+                      <input
+                        type="text"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+                        placeholder="123"
+                        value={paymentForm.cvv}
+                        onChange={(e) => setPaymentForm({ ...paymentForm, cvv: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold mt-8 mb-4">Billing Address</h3>
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-2">Street Address</label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+                      placeholder="123 Main St"
+                      value={paymentForm.address}
+                      onChange={(e) => setPaymentForm({ ...paymentForm, address: e.target.value })}
+                    />
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-2">City</label>
+                      <input
+                        type="text"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+                        placeholder="New York"
+                        value={paymentForm.city}
+                        onChange={(e) => setPaymentForm({ ...paymentForm, city: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-2">ZIP Code</label>
+                      <input
+                        type="text"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+                        placeholder="10001"
+                        value={paymentForm.zip}
+                        onChange={(e) => setPaymentForm({ ...paymentForm, zip: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <button
+                    onClick={handlePayment}
+                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 rounded-lg font-semibold hover:shadow-lg transition text-lg"
+                  >
+                    Complete Payment - ${getTotal()}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
+                <h2 className="text-2xl font-bold mb-4">Order Summary</h2>
+                <div className="space-y-3 mb-6">
+                  {cart.map(item => (
+                    <div key={item.id} className="flex justify-between text-sm">
+                      <span className="text-gray-600">{item.name} x{item.quantity}</span>
+                      <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                  ))}
+                  <div className="border-t pt-3 flex justify-between text-xl">
+                    <span className="font-bold">Total</span>
+                    <span className="font-bold text-purple-600">${getTotal()}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  if (!isLoggedIn) {
+    return <LoginPage />;
+  }
+
+  return (
+    <>
+      {currentPage === 'index' && <IndexPage />}
+      {currentPage === 'products' && <ProductsPage />}
+      {currentPage === 'cart' && <CartPage />}
+      {currentPage === 'payment' && <PaymentPage />}
+    </>
+  );
+};
+
+export default EcommerceWebsite;
