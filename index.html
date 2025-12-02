@@ -3,25 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechStore - Single Page Ecommerce</title>
-
-<!-- Google Fonts -->
+<title>TechStore - Login</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<!-- Tailwind CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
-
 <style>
-body {
-  font-family: 'Poppins', sans-serif;
-}
-.hidden { display: none; }
+body { font-family: 'Poppins', sans-serif; }
 </style>
 </head>
-<body class="bg-gray-50">
 
-<!-- ====================== LOGIN PAGE ====================== -->
-<div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100">
+
+<div class="min-h-screen flex items-center justify-center p-4">
   <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl">
     <h2 class="text-3xl font-bold text-center mb-6">Welcome Back</h2>
 
@@ -41,197 +33,12 @@ body {
   </div>
 </div>
 
-<!-- ====================== NAVBAR ====================== -->
-<nav id="navbar" class="hidden bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4">
-  <div class="container mx-auto flex justify-between">
-    <h1 class="text-2xl font-bold">TechStore</h1>
-    <div class="flex gap-4">
-      <button onclick="showPage('homePage')">Home</button>
-      <button onclick="showPage('productsPage')">Products</button>
-      <button onclick="showPage('cartPage')">Cart (<span id="cartCount">0</span>)</button>
-      <button onclick="logout()">Logout</button>
-    </div>
-  </div>
-</nav>
-
-<!-- ====================== HOME PAGE ====================== -->
-<div id="homePage" class="hidden container mx-auto p-8">
-  <h1 class="text-4xl font-bold text-center mb-4">Welcome to TechStore</h1>
-  <p class="text-center text-gray-600 mb-8">Your one-stop shop for the latest gadgets</p>
-
-  <h2 class="text-2xl font-bold mb-4">Featured Products</h2>
-
-  <div id="featuredProducts" class="grid md:grid-cols-3 gap-6"></div>
-
-  <div class="text-center mt-8">
-    <button onclick="showPage('productsPage')" class="bg-purple-600 text-white px-6 py-3 rounded-lg">
-      View All Products
-    </button>
-  </div>
-</div>
-
-<!-- ====================== PRODUCTS PAGE ====================== -->
-<div id="productsPage" class="hidden container mx-auto p-8">
-  <h1 class="text-4xl font-bold mb-6 text-center">Our Products</h1>
-  <div id="productsList" class="grid md:grid-cols-3 gap-6"></div>
-</div>
-
-<!-- ====================== CART PAGE ====================== -->
-<div id="cartPage" class="hidden container mx-auto p-8">
-  <h1 class="text-4xl font-bold mb-6">Shopping Cart</h1>
-
-  <div id="cartItems"></div>
-
-  <div class="mt-6 text-right text-xl font-bold">
-    Total: $<span id="totalAmount">0.00</span>
-  </div>
-
-  <button onclick="proceedToPayment()" class="mt-4 bg-green-600 text-white px-6 py-3 rounded-lg">
-    Proceed to Payment
-  </button>
-</div>
-
-<!-- ====================== PAYMENT PAGE ====================== -->
-<div id="paymentPage" class="hidden container mx-auto p-8">
-  <h1 class="text-4xl font-bold mb-6">Payment</h1>
-
-  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl mx-auto">
-    <label>Card Number</label>
-    <input class="w-full border p-2 rounded mb-4" placeholder="1234 5678 9012 3456">
-
-    <label>Name on Card</label>
-    <input class="w-full border p-2 rounded mb-4" placeholder="John Doe">
-
-    <label>CVV</label>
-    <input class="w-full border p-2 rounded mb-4" placeholder="123">
-
-    <button onclick="completePayment()" class="w-full bg-purple-600 text-white px-6 py-3 rounded-lg mt-4">
-      Pay Now
-    </button>
-  </div>
-</div>
-
 <script>
-/* ========================================================
-   PRODUCT LIST
-======================================================== */
-const products = [
-  { id: 1, name: "Wireless Headphones", price: 79.99, img: "https://m.media-amazon.com/images/I/61-1s8LQDaL.jpg" },
-  { id: 2, name: "Smart Watch", price: 199.99, img: "https://m.media-amazon.com/images/I/71cQWYVtcAL.jpg" },
-  { id: 3, name: "Laptop Stand", price: 49.99, img: "https://m.media-amazon.com/images/I/61qF1mk2QVL.jpg" },
-  { id: 4, name: "USB-C Hub", price: 39.99, img: "https://m.media-amazon.com/images/I/61qKc9t4ZQL.jpg" },
-  { id: 5, name: "Mechanical Keyboard", price: 129.99, img: "https://m.media-amazon.com/images/I/71F1Cm3Yx7L.jpg" },
-  { id: 6, name: "Wireless Mouse", price: 59.99, img: "https://m.media-amazon.com/images/I/61Qe0u8FH-L.jpg" },
-];
-
-let cart = [];
-
-/* ========================================================
-   LOGIN
-======================================================== */
 function login() {
   if (email.value && password.value) {
-    document.getElementById("loginPage").classList.add("hidden");
-    document.getElementById("navbar").classList.remove("hidden");
-    showPage("homePage");
+    window.location.href = "home.html";
   }
 }
-
-function logout() {
-  location.reload();
-}
-
-/* ========================================================
-   DISPLAY PAGES
-======================================================== */
-function showPage(page) {
-  document.getElementById("homePage").classList.add("hidden");
-  document.getElementById("productsPage").classList.add("hidden");
-  document.getElementById("cartPage").classList.add("hidden");
-  document.getElementById("paymentPage").classList.add("hidden");
-
-  document.getElementById(page).classList.remove("hidden");
-}
-
-/* ========================================================
-   RENDER PRODUCTS
-======================================================== */
-function renderProducts() {
-  const list = document.getElementById("productsList");
-  const featured = document.getElementById("featuredProducts");
-
-  list.innerHTML = "";
-  featured.innerHTML = "";
-
-  products.forEach((p, i) => {
-    const card = `
-      <div class="bg-white shadow-lg p-4 rounded-lg">
-        <img src="${p.img}" class="w-full h-48 object-cover rounded">
-        <h3 class="text-xl font-bold mt-2">${p.name}</h3>
-        <p class="text-purple-600 text-lg font-bold">$${p.price}</p>
-        <button onclick="addToCart(${p.id})"
-          class="w-full bg-purple-600 text-white py-2 rounded-lg mt-3">
-          Add to Cart
-        </button>
-      </div>`;
-
-    list.innerHTML += card;
-
-    if (i < 3) featured.innerHTML += card;
-  });
-}
-
-renderProducts();
-
-/* ========================================================
-   CART FUNCTIONS
-======================================================== */
-function addToCart(id) {
-  const product = products.find(p => p.id === id);
-  const exists = cart.find(item => item.id === id);
-
-  if (exists) exists.qty++;
-  else cart.push({ ...product, qty: 1 });
-
-  updateCartUI();
-}
-
-function updateCartUI() {
-  document.getElementById("cartCount").innerText = cart.length;
-
-  const container = document.getElementById("cartItems");
-  container.innerHTML = "";
-
-  let total = 0;
-
-  cart.forEach(item => {
-    total += item.price * item.qty;
-
-    container.innerHTML += `
-      <div class="bg-white p-4 rounded-lg shadow mb-4 flex items-center gap-4">
-        <img src="${item.img}" class="w-20 h-20 rounded object-cover">
-        <div class="flex-1">
-          <h3 class="text-xl font-bold">${item.name}</h3>
-          <p>$${item.price}</p>
-        </div>
-        <div class="font-bold">Qty: ${item.qty}</div>
-      </div>`;
-  });
-
-  document.getElementById("totalAmount").innerText = total.toFixed(2);
-}
-
-function proceedToPayment() {
-  showPage("paymentPage");
-}
-
-function completePayment() {
-  alert("Payment Successful! Thank you for your purchase.");
-  cart = [];
-  updateCartUI();
-  showPage("homePage");
-}
-
 </script>
 
 </body>
