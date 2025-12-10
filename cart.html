@@ -7,33 +7,37 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-T5N1WSXDXL');
 </script>
-  <!-- Google Tag Manager -->
+
+<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-5Q28K75Q');</script>
 <!-- End Google Tag Manager -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TechStore - Cart</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
+
 <style>
-body { 
-  <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5Q28K75Q"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-  font-family: 'Poppins', sans-serif; }
-.emoji { font-size: 50px; }
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+  .emoji { font-size: 50px; }
 </style>
 </head>
 
 <body class="bg-gray-50">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5Q28K75Q"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <!-- NAVBAR -->
 <nav class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4">
@@ -57,7 +61,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     Total: $<span id="totalAmount">0.00</span>
   </div>
 
-  <button class="bg-green-600 text-white px-6 py-3 rounded-lg mt-4">
+  <!-- BUTTON WITH REDIRECT -->
+  <button 
+    class="bg-green-600 text-white px-6 py-3 rounded-lg mt-4"
+    onclick="window.location.href='payment.html'">
     Proceed to Payment
   </button>
 </div>
