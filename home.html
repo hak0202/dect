@@ -1,39 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5Q28K75Q');</script>
-<!-- End Google Tag Manager -->
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-T5N1WSXDXL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-T5N1WSXDXL');
-</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechStore - Home</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-body {
-  <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5Q28K75Q"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-  font-family: 'Poppins', sans-serif; }
-.emoji { font-size: 70px; }
-</style>
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];
+    w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+    var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+    j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+    f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5Q28K75Q');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechStore - Home</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .emoji {
+      font-size: 70px;
+    }
+  </style>
+
 </head>
 
 <body class="bg-gray-50">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5Q28K75Q"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <!-- NAVBAR -->
 <nav class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4">
@@ -48,10 +54,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </nav>
 
+<!-- MAIN CONTENT -->
 <div class="container mx-auto p-8">
-  <h1 class="text-4xl font-bold text-center mb-4">Welcome to TechStore</h1>
-  <p class="text-center text-gray-600 mb-8">Your one-stop shop for the latest gadgets</p>
 
+  <h1 class="text-4xl font-bold text-center mb-4">Welcome to TechStore</h1>
+  <p class="text-center text-gray-600 mb-8">
+    Your one-stop shop for the latest gadgets
+  </p>
+
+  <!-- FEATURED PRODUCTS -->
   <h2 class="text-2xl font-bold mb-4">Featured Products</h2>
 
   <div class="grid md:grid-cols-3 gap-6">
@@ -76,10 +87,68 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   </div>
 
+  <!-- VIEW PRODUCTS -->
   <div class="text-center mt-8">
-    <a href="products.html" class="bg-purple-600 text-white px-6 py-3 rounded-lg">View All Products</a>
+    <a href="products.html"
+       class="bg-purple-600 text-white px-6 py-3 rounded-lg">
+       View All Products
+    </a>
   </div>
+
+  <!-- EMAIL SUBSCRIPTION -->
+  <div class="bg-white shadow-lg p-6 rounded-lg mt-12 max-w-md mx-auto">
+    <h2 class="text-xl font-bold mb-4 text-center">
+      Subscribe to our Newsletter
+    </h2>
+
+    <form id="emailSubscriptionForm">
+      <input
+        type="email"
+        required
+        placeholder="Enter your email"
+        class="w-full p-3 border rounded mb-4"
+      >
+
+      <button
+        type="submit"
+        class="bg-purple-600 text-white w-full py-3 rounded-lg">
+        Subscribe
+      </button>
+    </form>
+  </div>
+
+  <!-- OUTBOUND CLICK -->
+  <div class="text-center mt-10">
+    <a href="https://www.amazon.in"
+       target="_blank"
+       onclick="outboundClick()"
+       class="text-blue-600 underline">
+       Buy on Amazon
+    </a>
+  </div>
+
 </div>
+
+<!-- JAVASCRIPT FOR CONVERSIONS -->
+<script>
+  // Email subscription event
+  document.getElementById("emailSubscriptionForm")
+    .addEventListener("submit", function() {
+      window.dataLayer = window.dataLayer || [];
+      dataLayer.push({
+        event: "email_subscription"
+      });
+    });
+
+  // Outbound click event
+  function outboundClick() {
+    window.dataLayer = window.dataLayer || [];
+    dataLayer.push({
+      event: "outbound_click",
+      outbound_url: "https://www.amazon.in"
+    });
+  }
+</script>
 
 </body>
 </html>
